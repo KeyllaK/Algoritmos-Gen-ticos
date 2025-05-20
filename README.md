@@ -7,13 +7,13 @@ práticas na resolução de problemas, utilizando técnicas de busca e otimizaç
 - Utilizada em Inteligência artificial (machine learning).
 
 ## 🛠️ Tecnologias Utilizadas
-Linguagem Python
-Google Colab
+- Linguagem Python
+- Google Colab
 
 ## 📋 Pré-requisitos
 Bibliotecas em Python: 
--matplotlib para plotar gráficos
--numpy e math: para cálculos matemáticos
+- matplotlib para plotar gráficos
+- numpy e math: para cálculos matemáticos
 
 ## 🚀 Como Executar
 Clone o repositório:
