@@ -4,7 +4,7 @@ práticas na resolução de problemas, utilizando técnicas de busca e otimizaç
 
 ## 🎯 Funcionalidades
 - Maximizar e otimizar funções e problemas complexos.
-- Utilizada em Inteligência artificial (machine learning)
+- Utilizada em Inteligência artificial (machine learning).
 
 ## 🛠️ Tecnologias Utilizadas
 Linguagem Python
