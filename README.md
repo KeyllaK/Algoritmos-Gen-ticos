@@ -17,6 +17,6 @@ Bibliotecas em Python:
 
 ## 🚀 Como Executar
 Clone o repositório:
-git clone [https://github.com/KeyllaK/Algoritmos-Gen-ticos.git]
+git clone [https://github.com/KeyllaK/Algoritmos-Geneticos.git]
 
 Abra o projeto em um Ambiente de desenvolvimento e execute.
