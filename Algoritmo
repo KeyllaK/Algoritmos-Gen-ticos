@@ -1,0 +1,119 @@
+import random
+import math
+import matplotlib.pyplot as plt
+import numpy as np
+
+#Codificando os indivíduos
+NUM_BITS = 10  # Tamanho do cromossomo - bits
+INTERVALO_MIN = 0
+INTERVALO_MAX = 1
+
+# Padrão do algoritmo
+TAM_POP = 20                     # População de 20 indivíduos
+NUM_GERACOES = 100
+TAXA_MUTACAO = 0.01              # Mutação de 1% por bit
+TORNEIO_K = 3                    # Seleção por torneio
+
+# Maximizar função
+def func_objetivo(x):
+    return x * math.sin(10 * math.pi * x) + 1
+
+# Conversão binário para real, onde x E [0, 1]
+def binario_para_real(bits):
+    inteiro = int("".join(map(str, bits)), 2)
+    return INTERVALO_MIN + (inteiro / (2**NUM_BITS - 1)) * (INTERVALO_MAX - INTERVALO_MIN)
+
+# Função de fitness
+def avaliar(bits):
+    x = binario_para_real(bits)
+    return func_objetivo(x)
+
+# Criar indivíduo - 10 bits aleatórios
+def criar_individuo():
+    return [random.randint(0, 1) for _ in range(NUM_BITS)]
+
+# Criar a população inicial
+def criar_populacao():
+    return [criar_individuo() for _ in range(TAM_POP)]
+
+# Aplicar seleção (torneio)
+def selecao_torneio(pop, fitnesses):
+    melhores = random.sample(list(zip(pop, fitnesses)), TORNEIO_K)
+    return max(melhores, key=lambda x: x[1])[0][:]
+
+# Cruzamento para gerar filhos
+def cruzamento(p1, p2):
+    ponto = random.randint(1, NUM_BITS - 2)
+    f1 = p1[:ponto] + p2[ponto:]
+    f2 = p2[:ponto] + p1[ponto:]
+    return f1, f2
+
+# Mutação com taxa baixa de 1% por bit
+def mutacao(bits):
+    for i in range(NUM_BITS):
+        if random.random() < TAXA_MUTACAO:
+            bits[i] = 1 - bits[i]
+
+# Algoritmo Genético
+def algoritmo_genetico():
+    populacao = criar_populacao()
+    melhores_por_geracao = []
+
+    for ger in range(NUM_GERACOES):
+        fitnesses = [avaliar(ind) for ind in populacao]
+
+        # Melhores valores da geração
+        melhor_fitness = max(fitnesses)
+        melhores_por_geracao.append(melhor_fitness)
+
+        nova_pop = []
+        while len(nova_pop) < TAM_POP:
+            p1 = selecao_torneio(populacao, fitnesses)
+            p2 = selecao_torneio(populacao, fitnesses)
+            f1, f2 = cruzamento(p1, p2)
+            mutacao(f1)
+            mutacao(f2)
+            nova_pop.extend([f1, f2])
+
+        # Nova geração
+        populacao = nova_pop[:TAM_POP]
+
+    # Melhores Valores
+    fitnesses_finais = [avaliar(ind) for ind in populacao]
+    melhor_ind = populacao[fitnesses_finais.index(max(fitnesses_finais))]
+    melhor_x = binario_para_real(melhor_ind)
+    melhor_fx = func_objetivo(melhor_x)
+
+    print(f"\nMelhor x encontrado: {melhor_x:.6f}")
+    print(f"f(x) = {melhor_fx:.6f}")
+
+
+    # Gráfico 1 - Evolução do Melhor Fitness
+    plt.figure(figsize=(12, 5))
+
+    plt.subplot(1, 2, 1)
+    plt.plot(melhores_por_geracao, label="Melhor fitness", color='blue')
+    plt.xlabel("Geração")
+    plt.ylabel("f(x)")
+    plt.title("Melhor Fitness ao Longo das Gerações")
+    plt.grid()
+    plt.legend()
+
+
+    # Gráfico 2: Função f(x) com o melhor ponto
+    plt.subplot(1, 2, 2)
+    x_vals = np.linspace(0, 1, 1000)
+    y_vals = [func_objetivo(x) for x in x_vals]
+    plt.plot(x_vals, y_vals, label="f(x) = x·sin(10πx) + 1", color="green")
+    plt.plot(melhor_x, melhor_fx, 'ro', label=f"Melhor x = {melhor_x:.4f}")
+    plt.xlabel("x")
+    plt.ylabel("f(x)")
+    plt.title("Função Objetivo")
+    plt.grid()
+    plt.legend()
+
+    plt.tight_layout()
+    plt.show()
+
+# Executando o AG
+algoritmo_genetico()
