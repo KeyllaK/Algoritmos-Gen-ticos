@@ -3,8 +3,8 @@ Este projeto busca compreender os fundamentos teóricos dos AGs, seu funcionamen
 práticas na resolução de problemas, utilizando técnicas de busca e otimização
 
 ## 🎯 Funcionalidades
--Maximizar e otimizar funções e problemas complexos.
--Utilizada em Inteligência artificial (machine learning)
+- Maximizar e otimizar funções e problemas complexos.
+- Utilizada em Inteligência artificial (machine learning)
 
 ## 🛠️ Tecnologias Utilizadas
 Linguagem Python
